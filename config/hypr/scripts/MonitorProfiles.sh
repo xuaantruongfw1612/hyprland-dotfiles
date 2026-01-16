@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
 # For applying Pre-configured Monitor Profiles
 

@@ -1,11 +1,12 @@
-#!/usr/bin/env bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
+#!/bin/bash
+# /* ---- 💫 https://github.com/xuantruong1612 💫 ---- */  ##
+# xuantruong config
 # Screenshots scripts
 
 # variables
-time=$(date "+%d-%b_%H-%M-%S")
+time=$(date "+%d%m%y_%Hh%Mm%Ss%3Nms")
+file="screenshot_${time}.png"
 dir="$(xdg-user-dir PICTURES)/Screenshots"
-file="Screenshot_${time}_${RANDOM}.png"
 
 iDIR="$HOME/.config/swaync/icons"
 iDoR="$HOME/.config/swaync/images"
@@ -15,7 +16,7 @@ active_window_class=$(hyprctl -j activewindow | jq -r '(.class)')
 active_window_file="Screenshot_${time}_${active_window_class}.png"
 active_window_path="${dir}/${active_window_file}"
 
-notify_cmd_base="notify-send -t 10000 -A action1=Open -A action2=Delete -h string:x-canonical-private-synchronous:shot-notify"
+notify_cmd_base="notify-send -t 3000 -A action1=Open -A action2=Delete -h string:x-canonical-private-synchronous:shot-notify"
 notify_cmd_shot="${notify_cmd_base} -i ${iDIR}/picture.png "
 notify_cmd_shot_win="${notify_cmd_base} -i ${iDIR}/picture.png "
 notify_cmd_NOT="notify-send -u low -i ${iDoR}/note.png "
@@ -106,16 +107,35 @@ shotwin() {
 	notify_view
 }
 
+# sudo pacman -S imagemagick
 shotarea() {
-	tmpfile=$(mktemp)
-	grim -g "$(slurp)" - >"$tmpfile"
+    frozen=$(mktemp --suffix=.png)
+    grim "$frozen"  # chụp toàn màn hình ngay lúc ấn
 
-  # Copy with saving
-	if [[ -s "$tmpfile" ]]; then
-		wl-copy <"$tmpfile"
-		mv "$tmpfile" "$dir/$file"
-	fi
-	notify_view
+    # slurp trả về: "x,y widthxheight" (ví dụ: 200,300 800x600)
+    region=$(slurp -d "$frozen")
+
+    if [[ -n "$region" ]]; then
+        current_time=$(date "+%d%m%y_%Hh%Mm%Ss%3Nms")
+        current_file="screenshot_${current_time}.png"
+
+        # Tách giá trị từ region
+        x=$(echo "$region" | awk '{print $1}' | cut -d',' -f1)
+        y=$(echo "$region" | awk '{print $1}' | cut -d',' -f2)
+        w=$(echo "$region" | awk '{print $2}' | cut -d'x' -f1)
+        h=$(echo "$region" | awk '{print $2}' | cut -d'x' -f2)
+
+        # Crop vùng đã chọn từ ảnh frozen
+        convert "$frozen" -crop "${w}x${h}+${x}+${y}" "$dir/$current_file"
+
+        wl-copy < "$dir/$current_file"
+        file="$current_file"
+        notify_view
+    else
+        ${notify_cmd_NOT} " Screenshot" " Cancelled"
+    fi
+
+    rm -f "$frozen"
 }
 
 shotactive() {

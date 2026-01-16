@@ -1,4 +1,6 @@
-//* ---- 💫 https://github.com/JaKooLit 💫 ---- *//
+//* ---- 💫 [https://github.com/JaKooLit](https://github.com/JaKooLit) 💫 ---- *//
+/* --- Workspaces configuration by Xuan Truong --- */
+
 /* Waybar Modules */
 
 /* NOTE: hyprland-workspaces, Custom Modules, Custom Vertical & Groups on a separate files */
@@ -31,8 +33,8 @@
 		" ",
 		" ",
 		" ",
-		"󰃝 ",
 		"󰃞 ",
+        "󰃝 ",
 		"󰃟 ",
 		"󰃠 "
 	],
@@ -56,7 +58,7 @@
 },
 
 "battery": {
-	//"interval": 5,
+	//"interval": 30,
 	"align": 0,
 	"rotate": 0,
 	//"bat": "BAT1",
@@ -97,9 +99,9 @@
 
 "clock": {
 	"interval": 1,
-    "format": " {:%I:%M %p}", // AM PM format
+    "format": "{:%I:%M %p}", // AM PM format
     //"format": " {:%H:%M:%S}",// 24H
-	"format-alt": " {:L%H:%M   %Y, %d %B, %A}",
+	"format-alt": " {:%H:%M:%S   %Y, %d %B, %A}",
 	"tooltip-format": "<tt><small>{calendar}</small></tt>",
 	"calendar": {
 		"mode": "year",
@@ -125,36 +127,36 @@
 },
 
 "clock#2": {
-    "format": " {:%I:%M %p}", // AM PM format
+    "format": "{:%I:%M %p}", // AM PM format
     //"format": "  {:%H:%M}",// 24H
-    "format-alt": "{:L%A  |  %H:%M  |  %e %B}",
+    "format-alt": "{:%A  |  %H:%M  |  %e %B}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
 },
 
 "clock#3": {
-    //"format": "{:L%I:%M %p - %d/%b}", //for AM/PM
-    "format": "{:L%H:%M - %d/%b}", // 24H
+    "format": "{:%I:%M %p - %d/%b}",//for AM/PM
+    //"format": "{:%H:%M - %d/%b}",// 24H
 	"tooltip": false
 },
 
 "clock#4": {
 	"interval": 60,
-    //"format": "{:L%B | %a %d, %Y | %I:%M %p}", // AM PM format
-    "format": "{:L%B | %a %d, %Y | %H:%M}", // 24H
-	"format-alt": "{:L%a %b %d, %G}",
+    "format": "{:%B | %a %d, %Y | %I:%M %p}",// AM PM format
+    //"format": "{:%B | %a %d, %Y | %H:%M}",// 24H
+	"format-alt": "{:%a %b %d, %G}",
 	"tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
 },
 
 "clock#5": {
     "format": "{:%A, %I:%M %P}",// AM PM format
     //"format": "{:%a %d | %H:%M}",// 24H
-	"format-alt": "{:L%A, %d %B, %Y (%R)}",
+	"format-alt": "{:%A, %d %B, %Y (%R)}",
 	"tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
 },
 
 "cpu": {
 	"format": "{usage}% 󰍛",
-	"interval": 1,
+	"interval": 10,
 	"min-length": 5,
 	"format-alt-click": "click",
 	"format-alt": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% 󰍛",
@@ -165,7 +167,7 @@
 },
 
 "disk": {
-	"interval": 30,
+	"interval": 60,
 	//"format": "󰋊",
 	"path": "/",
 	//"format-alt-click": "click",
@@ -271,35 +273,51 @@
 	"format": "{ifname}",
 	"format-wifi": "{icon}",
 	"format-ethernet": "󰌘",
-	"format-disconnected": "󰌙",
-	"tooltip-format": "{ipaddr}  {bandwidthUpBits}  {bandwidthDownBits}",
+	"format-disconnected": "<span foreground='#ff0000'>󰌙</span>",
+	"format-disabled": "<span foreground='#ff0000'>󰌙</span>",
+	"tooltip-format": "{ipaddr}  {bandwidthUpBits}  {bandwidthDownBits}",
 	"format-linked": "󰈁 {ifname} (No IP)",
-	"tooltip-format-wifi": "{essid} {icon} {signalStrength}%",
+	"tooltip-format-wifi": "{essid} {icon} Signal: {signalStrength}%",
 	"tooltip-format-ethernet": "{ifname} 󰌘",
 	"tooltip-format-disconnected": "󰌙 Disconnected",
 	"max-length": 30,
 	"format-icons": [
 		"󰤯", "󰤟", "󰤢", "󰤥", "󰤨"
 	],
+	"states": {
+		"excellent": 80,
+		"good": 60,
+		"ok": 40,
+		"slow": 20,
+		"disconnected": 0
+	},
 	"on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --nmtui"
 },
 
 "network#speed": {
-	"interval": 1,
-	"format": "{ifname}",
-	"format-wifi": "{icon}  {bandwidthUpBytes}  {bandwidthDownBytes}",
-	"format-ethernet": "󰌘  {bandwidthUpBytes}  {bandwidthDownBytes}",
-	"format-disconnected": "󰌙",
-	"tooltip-format": "{ipaddr}",
-	"format-linked": "󰈁 {ifname} (No IP)",
-	"tooltip-format-wifi": "{essid} {icon} {signalStrength}%",
-	"tooltip-format-ethernet": "{ifname} 󰌘",
-	"tooltip-format-disconnected": "󰌙 Disconnected",
-	"min-length": 24,
-	"max-length": 24,
-	"format-icons": [
-		"󰤯", "󰤟", "󰤢", "󰤥", "󰤨"
-	]
+    "interval": 5,
+    "format": "{icon}",  // Mặc định chỉ hiện icon
+    "format-alt": " {bandwidthUpBytes}  {bandwidthDownBytes}",  // Khi click: hiện tốc độ
+    "format-alt-click": "click",  // Trigger bằng click chuột
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰌘",
+    "format-disconnected": "<span foreground='#ff0000'>󰌙</span>",
+    "format-disabled": "<span foreground='#ff0000'>󰌙</span>",
+    "tooltip": true,
+    "tooltip-format-wifi": "SSID: {essid}&#10;Signal: {signalStrength}%&#10;IP: {ipaddr}&#10;Upload: {bandwidthUpBytes}&#10;Download: {bandwidthDownBytes}",
+    "tooltip-format-ethernet": "Interface: {ifname}&#10;IP: {ipaddr}&#10;Upload: {bandwidthUpBytes}&#10;Download: {bandwidthDownBytes}",
+    "tooltip-format-disconnected": "󰌙 Disconnected",
+    "format-icons": [
+        "󰤯", "󰤟", "󰤢", "󰤥", "󰤨"
+    ],
+    "states": {
+        "excellent": 80,
+        "good": 60,
+        "ok": 40,
+        "slow": 20,
+        "disconnected": 0
+    },
+    "on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --nmtui"
 },
 
 "power-profiles-daemon": {
@@ -326,7 +344,7 @@
 		"portable": "",
 		"car": "",
 		"default": [
-			"", "", "󰕾",  ""
+			"", "", "󰕾",  " "
 		],
 		"ignored-sinks": [
 			"Easy Effects Sink"
@@ -353,7 +371,7 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", "", ""]
+      "default": ["", "", " "]
     },
   "on-click": "pamixer --toggle-mute",
   "on-click-right": "pavucontrol -t 3",
@@ -364,7 +382,7 @@
 "pulseaudio#microphone": {
 	"format": "{format_source}",
 	"format-source": " {volume}%",
-	"format-source-muted": "",
+	"format-source-muted": " ",
 	"on-click": "$HOME/.config/hypr/scripts/Volume.sh --toggle-mic",
 	"on-click-right": "pavucontrol -t 4",
 	"on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --mic-inc",
@@ -386,7 +404,7 @@
 	"on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
 	"on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec",
 	"format-icons": [
-		"", "", "󰕾", ""
+		"", "", "󰕾", " "
 	],
 },
 
